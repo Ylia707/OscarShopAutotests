@@ -7,18 +7,28 @@ class ProductPage(BasePage):
         add_button = self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET)
         add_button.click()
         self.solve_quiz_and_get_code()
-        self.should_be_message_about_adding_to_basket()
-        self.should_be_sum_equal_price_of_product()
 
-    def should_be_message_about_adding_to_basket(self):
+        #вытаскиваем название товара 
+        prod_name = self.extract_product_name()
+        #вытаскиваем цену товара
+        prod_price = self.extract_product_price()
+
+        self.should_be_message_about_adding_to_basket(prod_name)
+        self.should_be_sum_equal_price_of_product(prod_price)
+
+    def should_be_message_about_adding_to_basket(self, product_name):
         message_adding = self.browser.find_element(*ProductPageLocators.PRODUCT_IN_MESSAGE)
-        product = self.browser.find_element(*ProductPageLocators.PRODUCT)
-        name_product = product.text
-        assert message_adding.text.find(name_product) != -1, "Not Found message about adding to basket"
+        assert message_adding.text.find(product_name) != -1, "Name in message not equal name product"
 
 
-    def should_be_sum_equal_price_of_product(self):
+    def should_be_sum_equal_price_of_product(self, cost_prod):
         message_total_basket = self.browser.find_element(*ProductPageLocators.TOTAL_BASKET)
-        cost_prod = self.browser.find_element(*ProductPageLocators.COST_PRODUCT).text
-        assert message_total_basket.text.find(cost_prod)
+        assert message_total_basket.text.find(cost_prod), "Not equal product price and total sum of basket"
         
+
+    def extract_product_name(self):
+        product = self.browser.find_element(*ProductPageLocators.PRODUCT)
+        return product.text
+
+    def extract_product_price(self):
+        return self.browser.find_element(*ProductPageLocators.COST_PRODUCT).text
