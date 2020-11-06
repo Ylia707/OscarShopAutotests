@@ -15,15 +15,16 @@ class ProductPage(BasePage):
 
         self.should_be_message_about_adding_to_basket(prod_name)
         self.should_be_sum_equal_price_of_product(prod_price)
+        time.sleep(5)
 
     def should_be_message_about_adding_to_basket(self, product_name):
         message_adding = self.browser.find_element(*ProductPageLocators.PRODUCT_IN_MESSAGE)
-        assert message_adding.text.find(product_name) != -1, "Name in message not equal name product"
+        assert message_adding.text == product_name, "Name in message not equal name product"
 
 
     def should_be_sum_equal_price_of_product(self, cost_prod):
-        message_total_basket = self.browser.find_element(*ProductPageLocators.TOTAL_BASKET)
-        assert message_total_basket.text.find(cost_prod), "Not equal product price and total sum of basket"
+        total_basket = self.browser.find_element(*ProductPageLocators.TOTAL_BASKET).text
+        assert total_basket == cost_prod, "Not equal product price and total sum of basket"
         
 
     def extract_product_name(self):
