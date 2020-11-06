@@ -13,7 +13,5 @@ class ProductPageLocators():
     PRODUCT = (By.CSS_SELECTOR, "h1")
     COST_PRODUCT = (By.CSS_SELECTOR, "p.price_color")
     #селекторы для получения данных из алертов
-    PRODUCT_IN_MESSAGE = (By.CSS_SELECTOR, ".alertinner")
-    TOTAL_BASKET = (By.CSS_SELECTOR, ".alert-info")
-
-    
+    PRODUCT_IN_MESSAGE = (By.CSS_SELECTOR, ".alertinner strong")
+    TOTAL_BASKET = (By.CSS_SELECTOR, ".alert-info>div>p strong")
