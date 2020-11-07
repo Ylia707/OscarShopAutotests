@@ -3,6 +3,8 @@ from selenium.webdriver.common.by import By
 class BasePageLocators():
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
     LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
+    #выбран такой селектор потому что проверяет название класса целиком
+    BASKET_BUTTON = (By.CSS_SELECTOR, "a[class='btn btn-default']")
 
 class MainPageLocators():
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
@@ -19,3 +21,9 @@ class ProductPageLocators():
     #селекторы для получения данных из алертов
     PRODUCT_IN_MESSAGE = (By.CSS_SELECTOR, ".alertinner strong")
     TOTAL_BASKET = (By.CSS_SELECTOR, ".alert-info>div>p strong")
+
+class BasketPageLocators():
+    EMPTY_BASKET_MESSAGE = (By.CSS_SELECTOR, "#content_inner p")
+    #если в таблице есть хотя бы одна строка, значит в ней есть товары
+    ITEMS_TO_BUY = (By.CSS_SELECTOR, "#content_inner .row")
+    
