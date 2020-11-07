@@ -1,10 +1,39 @@
 from .pages.product_page import ProductPage
 from .pages.basket_page import BasketPage
+from .pages.login_page import LoginPage
 import pytest
-
+import time
 
 link = "http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/"
-def test_guest_can_add_product_to_basket(browser):
+
+@pytest.mark.registr_user
+class TestUserAddToBasketFromProductPage():
+    @pytest.fixture(autouse = True)
+    def setup(self, browser):
+        product_page = ProductPage(browser, link)
+        product_page.open()
+        product_page.go_to_login_page()
+        login_page = LoginPage(browser, browser.current_url)
+        email = str(time.time()) + "@fakemail.org"
+        login_page.register_new_user(email, "ygyE56RF_8")
+        login_page.should_be_authorized_user()
+
+    def test_user_cant_see_success_message(self, browser):
+        product_page = ProductPage(browser, link)
+        product_page.open()
+        product_page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        product_page = ProductPage(browser, link)
+        product_page.open()
+        product_page.add_product_to_basket()
+
+
+def test_guest_cant_see_success_message(self, browser):
+    product_page = ProductPage(browser, link)
+    product_page.open()
+    product_page.should_not_be_success_message()
+def test_guest_can_add_product_to_basket(self, browser):
     product_page = ProductPage(browser, link)
     product_page.open()
     product_page.add_product_to_basket()
@@ -16,11 +45,6 @@ def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
     product_page = ProductPage(browser, link)
     product_page.open()
     product_page.adding_to_basket()
-    product_page.should_not_be_success_message()
-
-def test_guest_cant_see_success_message(browser):
-    product_page = ProductPage(browser, link)
-    product_page.open()
     product_page.should_not_be_success_message()
 
 @pytest.mark.xfail

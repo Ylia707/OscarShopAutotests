@@ -3,11 +3,9 @@ from .locators import ProductPageLocators
 import time
 
 class ProductPage(BasePage):
+    
     def add_product_to_basket(self):
-        add_button = self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET)
-        add_button.click()
-        self.solve_quiz_and_get_code()
-
+        self.adding_to_basket()
         #вытаскиваем название товара 
         prod_name = self.extract_product_name()
         #вытаскиваем цену товара
@@ -15,7 +13,11 @@ class ProductPage(BasePage):
 
         self.should_be_message_about_adding_to_basket(prod_name)
         self.should_be_sum_equal_price_of_product(prod_price)
-        time.sleep(5)
+
+    def adding_to_basket(self):
+        add_button = self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET)
+        add_button.click()
+        #self.solve_quiz_and_get_code()
 
     def should_be_message_about_adding_to_basket(self, product_name):
         message_adding = self.browser.find_element(*ProductPageLocators.PRODUCT_IN_MESSAGE)
@@ -33,3 +35,18 @@ class ProductPage(BasePage):
 
     def extract_product_price(self):
         return self.browser.find_element(*ProductPageLocators.COST_PRODUCT).text
+
+
+    def should_not_be_success_message_after_add_to_basket(self):
+        self.adding_to_basket()
+        self.should_not_be_success_message()
+
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.PRODUCT_IN_MESSAGE), "Success message is presented, but should not be"
+
+    def should_not_be_success_message_after_add_to_basket(self):
+        self.adding_to_basket()
+        self.should_not_be_success_message()
+
+    def should_be_disable_message(self):
+        assert self.is_disappeared(*ProductPageLocators.PRODUCT_IN_MESSAGE), "Success message is not disabled, but it still here"
