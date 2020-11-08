@@ -22,7 +22,6 @@ class BasePage():
     def open(self):
         self.browser.get(self.url)
 
-    #что искать - селектор, как - способ (id, CSS, xpath)
     def is_element_present(self, how, what):
         try:
             self.browser.find_element(how, what)
@@ -52,7 +51,6 @@ class BasePage():
             WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))
         except TimeoutException:
             return True
-
         return False
 
 
@@ -62,7 +60,6 @@ class BasePage():
             until_not(EC.presence_of_element_located((how, what)))
         except TimeoutException:
             return False
-
         return True
 
 

@@ -3,7 +3,6 @@ from .pages.login_page import LoginPage
 from .pages.basket_page import BasketPage
 import pytest
 
-
 link = "http://selenium1py.pythonanywhere.com/"
 
 @pytest.mark.login_guest
